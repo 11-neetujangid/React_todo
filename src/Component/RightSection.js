@@ -5,6 +5,7 @@ const RightSection = () => {
     const dispatch = useDispatch();
     const mark = useSelector((state) => state.mark);
     const todos = useSelector((state) => state.todos);
+    const time = useSelector((state) => state.time);
     console.log(mark);
     const onClickMark = (data) => {
         console.log(data);
@@ -28,6 +29,25 @@ const RightSection = () => {
                                 <td>{record.title}</td>
                                 <td>{record.description}</td>
                                 <td><input class="form-check-input" type="checkbox" value="mark" id="flexCheckDefault" onClick={() => onClickMark(record)} /></td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table><br/><br/><br/>
+            <h3>Marked UnCompleted At :</h3>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date_Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        todos.map((record) => (
+                            <tr key={record.id}>
+                                <td>{record.title}</td>
+                                <td>{time}</td>
                             </tr>
                         ))
                     }

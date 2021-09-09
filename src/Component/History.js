@@ -1,22 +1,16 @@
-import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux"
-import { useHistory } from "react-router";
 
 const History = () => {
-    const history = useHistory();
     const todo = useSelector((state) => state.todos);
     console.log(todo);
     const update = useSelector((state) => state.update);
     console.log(update);
     const mark = useSelector((state) => state.mark);
     console.log(mark);
-    const onClickButton = () => {
-        history.push('/')
-    }
+    const time = useSelector((state) => state.time);
 
     return (
         <div className="App">
-
             <h3>Created At :</h3>
             <table className="table">
                 <thead>
@@ -66,7 +60,7 @@ const History = () => {
                         mark.map((record) => (
                             <tr key={record.id}>
                                 <td>{record.title}</td>
-                                <td>{record.curTime}</td>
+                                <td>{time}</td>
                             </tr>
                         ))
                     }

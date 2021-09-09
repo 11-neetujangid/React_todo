@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
-import { updateTodo, deleteTodo, deleteAllTodo, markTodos, setTodo, updateTododate } from "../Actions/action";
+import { updateTodo, deleteTodo, deleteAllTodo, markTodos, setTodo, updateTododate, markTodoTime } from "../Actions/action";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import History from './History'
@@ -59,7 +59,6 @@ const LeftSection = () => {
                                 <td> {todo.description}</td>
                                 <td>
                                     <input class="form-check-input" type="checkbox" value="mark" id="flexCheckDefault" onClick={() => onMark(todo)} />
-
                                 </td>
                                 <td>
                                     <Button variant="primary" onClick={handleShow}>Update</Button>

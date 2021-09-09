@@ -1,6 +1,6 @@
 import {
     SET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO, DELETE_ALL_TODO, MARK_TODOS,
-    UPDATE_TODO_DATE, UN_MARK_TODOS
+    UPDATE_TODO_DATE, UN_MARK_TODOS,
 } from "../Actions/action";
 const initialState = {
     todo: {
@@ -9,7 +9,8 @@ const initialState = {
     },
     todos: [],
     mark: [],
-    update: []
+    update: [],
+    time: '',
 }
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -64,12 +65,11 @@ const reducer = (state = initialState, action) => {
             }
         case MARK_TODOS:
             console.log(action.payload.id)
-            console.log(action.payload.time)
-
             const mark = [...state.mark, action.payload];
             return {
                 ...state,
                 mark,
+                time: new Date().toLocaleString(),
                 todos: state.todos.filter((todo) => todo.id !== action.payload.id),
             }
         case UN_MARK_TODOS:
@@ -78,6 +78,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 todos: [...state.todos, action.payload],
                 mark: state.mark.filter((todo) => todo.id !== action.payload.id),
+                time: new Date().toLocaleString(),
             }
         default:
             return state;
