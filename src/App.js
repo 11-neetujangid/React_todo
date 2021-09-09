@@ -13,9 +13,6 @@ function App() {
     <Provider store={store}>
       <div className="App">
         <Router>
-          <header>
-            <Link to="/history">history</Link>
-          </header>
           <Switch>
             <Route exact path="/" component={Todo} />
             <Route exact path="/history" component={History} />

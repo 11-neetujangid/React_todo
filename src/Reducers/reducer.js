@@ -1,4 +1,7 @@
-import { SET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO, DELETE_ALL_TODO, MARK_TODOS } from "../Actions/action";
+import {
+    SET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO, DELETE_ALL_TODO, MARK_TODOS,
+    UPDATE_TODO_DATE, UN_MARK_TODOS
+} from "../Actions/action";
 const initialState = {
     todo: {
         title: '',
@@ -6,6 +9,7 @@ const initialState = {
     },
     todos: [],
     mark: [],
+    update: []
 }
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -35,6 +39,18 @@ const reducer = (state = initialState, action) => {
                     return todo;
                 }),
             }
+        case UPDATE_TODO_DATE:
+            console.log(action.payload.id)
+            return {
+                ...state,
+                todo: initialState.todo,
+                update: state.todos.map((todo) => {
+                    if (todo.id === action.payload.id) {
+                        return { ...todo, ...action.payload };
+                    }
+                    return todo;
+                }),
+            }
         case DELETE_TODO:
             return {
                 ...state,
@@ -47,15 +63,24 @@ const reducer = (state = initialState, action) => {
                 todos: []
             }
         case MARK_TODOS:
-            console.log(action.payload)
+            console.log(action.payload.id)
+            console.log(action.payload.time)
+
+            const mark = [...state.mark, action.payload];
             return {
                 ...state,
-                mark: action.payload,
+                mark,
+                todos: state.todos.filter((todo) => todo.id !== action.payload.id),
+            }
+        case UN_MARK_TODOS:
+            console.log(action.payload.id)
+            return {
+                ...state,
+                todos: [...state.todos, action.payload],
+                mark: state.mark.filter((todo) => todo.id !== action.payload.id),
             }
         default:
             return state;
     }
-
-
 }
 export default reducer

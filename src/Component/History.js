@@ -6,6 +6,8 @@ const History = () => {
     const history = useHistory();
     const todo = useSelector((state) => state.todos);
     console.log(todo);
+    const update = useSelector((state) => state.update);
+    console.log(update);
     const mark = useSelector((state) => state.mark);
     console.log(mark);
     const onClickButton = () => {
@@ -14,8 +16,8 @@ const History = () => {
 
     return (
         <div className="App">
-            <h2>History</h2>
-            <h3>Created At</h3>
+
+            <h3>Created At :</h3>
             <table className="table">
                 <thead>
                     <tr>
@@ -33,7 +35,7 @@ const History = () => {
                         )}
                 </tbody>
             </table>
-            <h3>Marked At</h3>
+            <h3>Updated At :</h3>
             <table className="table">
                 <thead>
                     <tr>
@@ -42,15 +44,34 @@ const History = () => {
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr >
-                        {/* <td>{mark[0].title}</td> */}
-                        <td>{mark.curTime}</td>
-                    </tr>
-
+                    {
+                        update.map((record) =>
+                            <tr key={record.id} >
+                                <td>{record.title}</td>
+                                <td>{record.curTime}</td>
+                            </tr>
+                        )}
                 </tbody>
             </table>
-            <Button onClick={() => onClickButton()}>Back</Button>
+            <h3>Marked Completed At :</h3>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date_Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        mark.map((record) => (
+                            <tr key={record.id}>
+                                <td>{record.title}</td>
+                                <td>{record.curTime}</td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
         </div>
     )
 }
