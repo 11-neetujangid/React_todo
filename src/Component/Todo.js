@@ -17,6 +17,7 @@ const Todo = () => {
     }
     const onHandleClick =() =>{
        dispatch(addTodo({...todo, curTime: new Date().toLocaleString() + '', id: new Date().getTime()}));
+       setShow(false);
     }
     return (
         <>
@@ -34,7 +35,7 @@ const Todo = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}> Close</Button>
-                        <Button variant="primary" onClick ={() => onHandleClick()}>Add</Button>
+                        <Button variant="primary"  onClick ={() => onHandleClick()}>Add</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

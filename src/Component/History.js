@@ -2,11 +2,11 @@ import { useSelector } from "react-redux"
 
 const History = () => {
     const todo = useSelector((state) => state.todos);
-    console.log(todo);
+    // console.log(todo);
     const update = useSelector((state) => state.update);
-    console.log(update);
+    // console.log(update);
     const mark = useSelector((state) => state.mark);
-    console.log(mark);
+    // console.log(mark);
     const time = useSelector((state) => state.time);
 
     return (
