@@ -9,10 +9,13 @@ const RightSection = () => {
     const dispatch = useDispatch();
     const mark = useSelector((state) => state.mark);
     console.log(mark);
-    const todos = useSelector((state) => state.todos);
+    // const todos = useSelector((state) => state.todos);
     const time = useSelector((state) => state.time);
     const update = useSelector((state) => state.update);
     const data = useSelector((state) => state.arrowdata);
+    const completeData = useSelector((state) => state.complete);
+    console.log(completeData);
+
     const onClickMark = (data) => {
         console.log(data);
         dispatch(unCompleted(data));
@@ -36,7 +39,7 @@ const RightSection = () => {
                 </thead>
                 <tbody>
                     {
-                        mark.map((record) => (
+                        completeData.map((record) => (
                             <tr key={record.id}>
                                 <td>{record.title}</td>
                                 <td>{record.description}</td>
@@ -57,23 +60,23 @@ const RightSection = () => {
                                                 </thead>
                                                 <tbody>
                                                     {
-                                                        data.map((record) =>
+                                                        data.map((record) => (
                                                             <tr key={record.id} >
                                                                 <td>Created At : {record.curTime}</td>
                                                             </tr>
-                                                        )
+                                                        ))
                                                     }
                                                     {
-                                                        update.map((record) =>
+                                                        update.map((record) => (
                                                             <tr key={record.id} >
                                                                 <td>Updated At : {record.Time}</td>
 
                                                             </tr>
-                                                        )}
+                                                        ))}
                                                     {
                                                         mark.map((record) => (
                                                             <tr key={record.id}>
-                                                                <td>Completed At : {time}</td>
+                                                                <td>Completed At :{record.curTime}</td>
                                                             </tr>
                                                         ))
                                                     }

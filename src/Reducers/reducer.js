@@ -1,6 +1,6 @@
 import {
     SET_TODO, ADD_TODO, UPDATE_TODO, DELETE_TODO, DELETE_ALL_TODO, MARK_TODOS,
-    UPDATE_TODO_DATE, UN_MARK_TODOS, ARROW_DATA, SET_CHECK, CHECKED, multipleDelete, MULTIPLE_DELETE,
+    UPDATE_TODO_DATE, UN_MARK_TODOS, ARROW_DATA, SET_CHECK, CHECKED, MULTIPLE_DELETE, COMPLETED,
 } from "../Actions/action";
 
 const initialState = {
@@ -13,9 +13,11 @@ const initialState = {
     update: [],
     time: '',
     arrowdata: [],
-    Checked: false,
+    checked: false,
     copydata: [],
-    multiDelete: []
+    multiDelete: [],
+    checkedData: [],
+    complete: []
 }
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -58,6 +60,7 @@ const reducer = (state = initialState, action) => {
                         console.log({ ...todo, ...action.payload })
                         return { ...todo, ...action.payload };
                     }
+                    return action.payload
                 })
             }
         case DELETE_TODO:
@@ -66,60 +69,75 @@ const reducer = (state = initialState, action) => {
                 todos: state.todos.filter((todo) => todo.id !== action.payload.id),
             }
         case DELETE_ALL_TODO:
-            console.log(action.payload.map((data) => data.id))
-
+            let value = action.payload.map((data) => data.id)
+            console.log(value)
             return {
                 ...state,
-                todos: state.todos.filter((todo) => todo.id !== action.payload.map((data) => data.id))
+                todos: state.todos.filter((todo) => {
+                    return !value.includes(todo.id);
+                })
+
             }
         case MARK_TODOS:
             console.log(action.payload.id)
             const mark = [...state.mark, action.payload];
+            console.log(mark)
             return {
                 ...state,
                 mark,
                 time: new Date().toLocaleString(),
-                todos: state.todos.filter((todo) => todo.id !== action.payload.id),
+            }
+        case COMPLETED:
+            console.log(action.payload)
+            return {
+                ...state,
+                complete: action.payload,
+                todos: state.todos.filter((todo) => todo.id == action.payload.id),
+
             }
         case SET_CHECK:
             console.log(action.payload);
+            const checkedData = [...state.checkedData, action.payload];
+            console.log(checkedData)
             return {
                 ...state,
-                checked: action.payload,
+                checkedData,
             }
         case UN_MARK_TODOS:
             console.log(action.payload.id)
             return {
                 ...state,
                 todos: [...state.todos, action.payload],
-                mark: state.mark.filter((todo) => todo.id !== action.payload.id),
+                complete: state.complete.filter((todo) => todo.id !== action.payload.id),
                 time: new Date().toLocaleString(),
             }
         case ARROW_DATA:
             console.log(action.payload)
+            // let a = action.payload.map((data) => data.id)
+            // console.log(a)
             return {
                 ...state,
                 todo: initialState.todo,
                 arrowdata: state.todos.map((todo) => {
-                    if (todo.id === action.payload.id) {
-                        console.log(todo.id)
+                    if (todo.id === action.payload) {
+                        // console.log(todo.id)
                         console.log({ ...todo, ...action.payload })
                         return { ...todo, ...action.payload };
                     }
-                    { state.arrowdata.filter((todo) => todo.id !== action.payload.id) }
-                }),
+                    return action.payload
+                })
+
             }
         case CHECKED:
-            const copydata = [...state.copydata, action.payload];
-            console.log(copydata);
+            // const copydata = [...state.copydata, action.payload];
+            // console.log(copydata);
             return {
                 ...state,
-                copydata,
+                copydata: action.payload
             }
         case MULTIPLE_DELETE:
-            const multiDelete = [...state.todos, action.payload];
+            const multiDelete = [...state.multiDelete, action.payload];
             console.log(multiDelete)
-
             return {
                 ...state,
                 multiDelete,

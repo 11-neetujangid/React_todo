@@ -2,31 +2,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 import {
     updateTodo, deleteTodo, deleteAllTodo, markTodos, setTodo, updateTododate, arrowData, setCheckBox,
-    checked, multipleDelete
+    checked, multipleDelete, complete
 } from "../Actions/action";
 import { useState } from "react";
 import img from '../Images/arrow.png';
-import { useHistory } from "react-router";
 import { Image } from "react-bootstrap";
 
 const LeftSection = () => {
     const dispatch = useDispatch();
-    const history = useHistory()
-
     const todos = useSelector((state) => state.todos)
     console.log(todos);
     const todo = useSelector((state) => state.todo);
-    console.log(todo);
+    // console.log(todo);
     const update = useSelector((state) => state.update);
-    console.log(update)
+    // console.log(update)
     const data = useSelector((state) => state.arrowdata);
     console.log(data);
-    const check = useSelector((state) => state.Checked);
-    console.log(check);
+    const check = useSelector((state) => state.checked);
+    // console.log(check);
     const copy = useSelector((state) => state.copydata);
-    console.log(copy);
+    // console.log(copy);
     const muldelete = useSelector((state) => state.multiDelete);
-    console.log(muldelete);
+    // console.log(muldelete);
+    const checkedData = useSelector((state) => state.checkedData);
+    // console.log(checkedData);
+    const mark = useSelector((state) => state.mark);
+    // console.log(mark)
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -37,7 +38,7 @@ const LeftSection = () => {
     const [arrow, setArrow] = useState(false);
     const handleCloseArrow = () => setArrow(false);
     const handleArrow = (id) => {
-        dispatch(arrowData({ ...todo, id }));
+        dispatch(arrowData(id));
         setArrow(true)
     }
     const onChangeInput = (e) => {
@@ -55,29 +56,27 @@ const LeftSection = () => {
     }
     const onclickDeleteAll = () => {
         console.log("delete todo", muldelete)
-        // dispatch(deleteAllTodo(todo));
         dispatch(deleteAllTodo(muldelete));
-
     }
+
     const onMark = (todo) => {
-        // dispatch(markTodos(todo));
+        dispatch(markTodos(todo));
         dispatch(multipleDelete(todo))
-    }
-    const mark = useSelector((state) => state.mark);
-
-    const onChangeCheck = (data) => {
-        console.log(data)
-        console.log(!check)
-        // const checked = !check
-        dispatch(setCheckBox({ ...todos, check: !check }))
+        dispatch(setCheckBox({ ...todo, check: !check }))
     }
     const onClickCopyButton = () => {
         console.log("hello");
-        console.log(check);
-        if (check === true) {
-            console.log("is true");
-            dispatch(checked(check));
-        }
+        console.log(checkedData);
+        checkedData.map((data) => {
+            if (data.check === true) {
+                console.log("is true");
+                dispatch(checked(checkedData));
+            }
+        })
+    }
+    const onClickCompleteButton = () => {
+        console.log("completed");
+        dispatch(complete(mark))
     }
     return (
         <div className="App">
@@ -87,8 +86,7 @@ const LeftSection = () => {
                     <tr>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Mark</th>
-                        <th>copy</th>
+                        <th>Select</th>
                         <th>Action</th>
                         <th>Up</th>
                     </tr>
@@ -100,11 +98,7 @@ const LeftSection = () => {
                                 <td>{todo.title}</td>
                                 <td> {todo.description}</td>
                                 <td>
-                                    <input class="form-check-input" type="checkbox" value="mark" id="flexCheckDefault" checked={check} onClick={() => onMark(todo)} />
-                                </td>
-                                <td>
-                                    {/* <Button variant="primary" onClick={() => onClickCopyButton(todo)} >Copy</Button> */}
-                                    <input class="form-check-input" type="checkbox" name="mark" onClick={() => onChangeCheck(todo)} />
+                                    <input class="form-check-input" type="checkbox" value="mark" id="flexCheckDefault" value={check} onClick={() => onMark(todo)} />
                                 </td>
                                 <td>
                                     <Button variant="primary" onClick={handleShow}>Update</Button>
@@ -156,36 +150,27 @@ const LeftSection = () => {
                                         </Modal.Footer>
                                     </Modal>{' '}
                                 </td>
-                                <table className="table">
-                                    {/* <thead>
-                                        <tr>
-                                            <th>Title</th>
-                                        </tr>
-                                    </thead> */}
 
-                                    <tbody>
-                                        {copy.map((record) => {
-                                            return (
-                                                <tr key={record.id}>
-                                                    <td> copy of {record.title}</td>
-                                                    <td> {record.description}</td>
-                                                    <td> {record.check}</td>
-
-
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
                             </tr>
                         )
                     })}
+                    <tr>
+                        <tbody>
+                            {
+                                copy.map((record) => (
+                                    <tr key={record.id}>
+                                        <td>Copy of {record.title}</td>
+                                        <td>{record.description}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </tr>
                 </tbody>
             </table>
             <Button variant="primary" onClick={() => onclickDeleteAll()}>Delete All</Button>{' '}
-            <Button variant="primary" onClick={() => onClickCopyButton(todo)} >Copy</Button>
-            <br /><br /><br />
-            {/* <CopyTodo /> */}
+            <Button variant="primary" onClick={() => onClickCopyButton()} >Copy All</Button>{' '}
+            <Button variant="primary" onClick={() => onClickCompleteButton()} >Completed</Button>
         </div>
     )
 }

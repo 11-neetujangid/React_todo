@@ -10,6 +10,8 @@ export const ARROW_DATA = "ARROW_DATA";
 export const SET_CHECK = "SET_CHECK";
 export const CHECKED = "CHECKED";
 export const MULTIPLE_DELETE = "MULTIPLE_DELETE";
+export const COMPLETED = "COMPLETED";
+
 
 
 export const setTodo = (payload) => ({ type: SET_TODO, payload: payload });
@@ -24,5 +26,6 @@ export const arrowData = payload => (console.log(payload), { type: ARROW_DATA, p
 export const setCheckBox = payload => (console.log(payload), { type: SET_CHECK, payload });
 export const checked = payload => (console.log(payload), { type: CHECKED, payload });
 export const multipleDelete = payload => (console.log(payload), { type: MULTIPLE_DELETE, payload });
+export const complete = payload => (console.log(payload),{ type: COMPLETED, payload });
 
 
